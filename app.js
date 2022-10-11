@@ -10,6 +10,7 @@ const upload = require("./config/multer");
 
 // 웹서버 생성
 var server = http.createServer(app);
+
 app.get("/", (req, res) => {
     fs.readFile("HTMLPage.html", (error, data) => {
         res.writeHead(200, { "Content-Type": "text/html" }); // 응답 헤더에 대한 정보를 기록하는 메서드, 응답의 콘텐츠 형식이 HTML
@@ -17,13 +18,12 @@ app.get("/", (req, res) => {
     });
 });
 
-server.listen(52273, () => {
-    console.log("Server Running at http://127.0.0.1:52273");
+server.listen(3000, () => {
+    console.log("Server Running at http://127.0.0.1:3000");
 });
 
 var io = socketio(server);
 io.sockets.on("connection", (socket) => {
-    // message
     var roomName = null;
 
     socket.on("join", (data) => {

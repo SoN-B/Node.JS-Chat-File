@@ -34,16 +34,6 @@
         $('#content').listview('refresh');
       });
 
-      function readURL(input) {
-        if (input.files && input.files[0]) {
-          var reader = new FileReader();
-          reader.onload = function (e) {
-            $('#blah').attr('src', e.target.result);
-          }
-          reader.readAsDataURL(input.files[0]);
-        }
-      }
-
       $('#button').click(function () {
         socket.emit('message', {
           name: $('#name').val(),
@@ -57,7 +47,7 @@
         output += '<li>';
         output += '    <h3>' + data.name + '</h3>';
         output += '    <img src =' + data.message + ' height = 200px width = 200px>';
-        // 이때 이미지가 깨지는 이유: 127.0.0.1:52273 + data.message로 접속된다.
+        // 이때 이미지가 깨지는 이유: 127.0.0.1:3000 + data.message로 접속된다.
         // s3를 사용해서 s3주소를 날라오게 하면 가능하다. 
 
         output += '    <p>' + data.date + '</p>';
@@ -78,9 +68,10 @@
         var form = $('#uploadForm')[0];
         var formData = new FormData();
         formData.append("image", $("input[name=test]")[0].files[0]);
+        // 생성한 폼 데이터에 파일 객체를 할당하고, 서버에 요청을 보냅니다.
         var obj = {formData}
         $.ajax({
-          url : 'http://127.0.0.1:52273/image',
+          url : 'http://127.0.0.1:3000/image',
           type : 'POST',
           method: "POST",
           timeout: 0,
