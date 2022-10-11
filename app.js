@@ -5,24 +5,15 @@ var socketio = require("socket.io");
 var express = require("express");
 var app = express();
 
-var multer = require("multer");
 const upload = require("./config/multer");
-// var path = require('path');var storage = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     cb(null, 'uploads/') // cb 콜백함수를 통해 전송된 파일 저장 디렉토리 설정
-//   },
-//   filename: function (req, file, cb) {
-//     cb(null, file.originalname) // cb 콜백함수를 통해 전송된 파일 이름 설정
-//   }
-// })
-// var upload = multer({ storage: storage })
+// upload는 s3를 통한 이미지 저장을 위해 선언한 것
 
 // 웹서버 생성
 var server = http.createServer(app);
-app.get("/", (request, response) => {
+app.get("/", (req, res) => {
     fs.readFile("HTMLPage.html", (error, data) => {
-        response.writeHead(200, { "Content-Type": "text/html" });
-        response.end(data);
+        res.writeHead(200, { "Content-Type": "text/html" }); // 응답 헤더에 대한 정보를 기록하는 메서드, 응답의 콘텐츠 형식이 HTML
+        res.end(data); // 주로 서버가 작동을 안하거나 오류가 있을 경우, 특정 문구를 나타내고 응답을 종료하고자 할 때 사용
     });
 });
 
@@ -53,8 +44,8 @@ io.sockets.on("connection", (socket) => {
 
 app.post("/image", upload.single("image"), function (req, res, next) {
     try {
-        // var file = './uploads' + req.file.filename;
         console.log(req.file);
+        // 클라이언트에서 넘어온 파일에 대한 정보가 req.file에 FILE 객체로 저장되어 있습니다.
 
         var data = req.file;
         res.send(data.location);

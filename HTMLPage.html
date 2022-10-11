@@ -18,7 +18,7 @@
       var room = prompt('방 이름을 입력하세요.', '');
       var socket = io.connect();
       // 소켓 이벤트를 연결합니다.
-      socket.emit('join', room);
+      socket.emit('join', room); // 방 이름 넘겨줌
 
       socket.on('message', function (data) {
         // $('<p>' + data.message + '</p>').appendTo('body');
@@ -33,6 +33,7 @@
         $(output).prependTo('#content');
         $('#content').listview('refresh');
       });
+
       function readURL(input) {
         if (input.files && input.files[0]) {
           var reader = new FileReader();
@@ -47,7 +48,6 @@
         socket.emit('message', {
           name: $('#name').val(),
           message: $('#message').val(),
-
           date: new Date().toUTCString()
         });
       });
@@ -70,7 +70,7 @@
 
       $(function(){
         $('#uploadBtn').on('click', function(){
-        uploadFile();
+          uploadFile();
         });
       });
 
@@ -114,36 +114,33 @@
 </head>
 
 <body>
-  
-  <div data-role="page">
-    <div data-role="header">
-      <h1>Socket.io Chat</h1>
+    <div data-role="page">
+      <div data-role="header">
+        <h1>Socket.io Chat</h1>
+      </div>
+      <div data-role="content">
+        <h3>Nick Name</h3>
+        <input id="name" />
+        <a data-role="button" href="#chatpage">Start Chat</a>
+      </div>
     </div>
-    <div data-role="content">
-      <h3>Nick Name</h3>
-      <input id="name" />
-      <a data-role="button" href="#chatpage">Start Chat</a>
-     
-  
-    </div>
-  </div>
-  <div data-role="page" id="chatpage">
-    <div data-role="header">
-      <h1>Socket.io Chat</h1>
-    </div>
-    <div data-role="content">
-      <!-- 메세지 입력 -->
-      <input id="message" />
-      <button id='button'>Button</button>
-      <!-- 사진 업로드 -->
-      <form id="uploadForm" method="post" enctype="multipart/form-data">
-        <input type="file" name="test" id="test"/>
-        <button type="button" id="uploadBtn">Save</button>
-      </form>
-      <!-- 전송한 내용이 출력될 위치 -->
-      <ul id="content" data-role="listview" data-inset="true"></ul>
-    </div>
-  </div>  
+    <div data-role="page" id="chatpage">
+      <div data-role="header">
+        <h1>Socket.io Chat</h1>
+      </div>
+      <div data-role="content">
+        <!-- 메세지 입력 -->
+        <input id="message" />
+        <button id='button'>Button</button>
+        <!-- 사진 업로드 -->
+        <form id="uploadForm" method="post" enctype="multipart/form-data">
+          <input type="file" name="test" id="test"/>
+          <button type="button" id="uploadBtn">Save</button>
+        </form>
+        <!-- 전송한 내용이 출력될 위치 -->
+        <ul id="content" data-role="listview" data-inset="true"></ul>
+      </div>
+    </div>  
 </body>
 
 </html>
